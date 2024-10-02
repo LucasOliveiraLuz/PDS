@@ -2,9 +2,9 @@ package br.com.loja.assistec.dal;
 
 import java.sql.*;
 
-public class ModuloConexao {
+public class ConexaoBD {
 	// método para estabelecer conexão com o BD
-	public static Connection conector() {
+	public static Connection getConnection() {
 		Connection conexao = null;
 		// chamar o driver
 		String driver = "com.mysql.cj.jdbc.Driver";

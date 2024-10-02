@@ -1,15 +1,20 @@
 package br.com.loja.assistec.view;
 
-import java.awt.EventQueue;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
-import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import br.com.loja.assistec.controller.LoginController;
 
 public class LoginView extends JFrame {
 	/**
@@ -18,7 +23,8 @@ public class LoginView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public JTextField txtUsuario;
 	public JPasswordField txtSenha;
-	public JLabel lblStaus;
+	public JLabel lblStatus;
+	public JLabel Login;
 
 	/**
 	 * Launch the application.
@@ -28,6 +34,25 @@ public class LoginView extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginView() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				LoginController lc = new LoginController();
+				try {
+					if(lc.verificarBancoOnline()) {
+						lblStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/loja/assistec/icones/dbok.png")));
+						
+						
+					}else {
+						lblStatus.setIcon(new ImageIcon(getClass().getResource("/br/com/loja/assistec/icones/dbok.png")));
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -42,7 +67,7 @@ public class LoginView extends JFrame {
 		
 		txtSenha = new JPasswordField();
 		
-		lblStaus = new JLabel("");
+		lblStatus = new JLabel("");
 		
 		
 		
@@ -67,7 +92,7 @@ public class LoginView extends JFrame {
 							.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(80)
-							.addComponent(lblStaus)))
+							.addComponent(lblStatus)))
 					.addContainerGap(192, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -84,7 +109,7 @@ public class LoginView extends JFrame {
 					.addGap(48)
 					.addComponent(btnLogin)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblStaus)
+					.addComponent(lblStatus)
 					.addContainerGap(51, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(groupLayout);

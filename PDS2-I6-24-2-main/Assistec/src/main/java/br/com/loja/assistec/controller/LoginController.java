@@ -1,26 +1,21 @@
 package br.com.loja.assistec.controller;
 
-import br.com.loja.assistec.model.UsuarioModel;
-import br.com.loja.assistec.view.LoginView;
+import java.sql.SQLException;
+
+import br.com.loja.assistec.model.LoginDAO;
 
 public class LoginController {
 
-	private LoginView view;
-	private UsuarioModel model;
 	
-	public LoginController(LoginView view) {
-		this.view = view;
-		this.model = new UsuarioModel();
+	public LoginController() {
 		
-		if(model.conexao != null) {
-			view.lblStaus.setText("conectado ao Banco de dados");
-			System.out.println("Conectado no Banco");
-			
-		}else {
-			System.out.println("Não conectado");
-			view.lblStaus.setText("Não conectado ao Banco de dados");
-		}
+		
 	}
-	
+	public Boolean verificarBancoOnline() throws SQLException {
+		
+		LoginDAO dao = new LoginDAO();
+		return dao.bancoOnline();
+		
+	}
 	
 }
