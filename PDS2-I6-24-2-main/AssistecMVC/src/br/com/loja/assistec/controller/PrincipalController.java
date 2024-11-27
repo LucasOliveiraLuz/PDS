@@ -1,4 +1,3 @@
-
 package br.com.loja.assistec.controller;
 
 import java.awt.event.ActionEvent;
@@ -66,13 +65,13 @@ public class PrincipalController {
 
 	// Abre a tela de listagem de usuários
 	private void abrirListagemUsuarios() {
-		new ListarUsuarioController();
+//		new ListarUsuarioController();
 	}
 
 	// Exibe a mensagem de confirmação de saída e fecha o sistema se confirmado
 	private void sairDoSistema() {
 //		int confirmacao = principalView.confirmarFecharSistema();
-		MensagemView mv = new MensagemView("Tem certeza que desaja sai?");
+		MensagemView mv = new MensagemView("Tem certeza que deseja sair?");
 		int confirmacao = mv.getResposta();
 		if (confirmacao == 1) {
 			System.exit(0);
@@ -81,8 +80,8 @@ public class PrincipalController {
 
 	// Exibe a tela "Sobre" do sistema
 	private void mostrarInformacoesSobre() {
-		//principalView.mostrarSobre();
-		new MensagemView("Sistema de Gestão Assistec",10);
+//		principalView.mostrarSobre();
+		new MensagemView("Sistema de Gestão Assistec", 10);
 	}
 
 	// Configura o perfil do usuário e ajusta permissões no menu

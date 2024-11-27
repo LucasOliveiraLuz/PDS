@@ -1,4 +1,3 @@
-
 package br.com.loja.assistec.view;
 
 import java.awt.event.ActionListener;
@@ -116,15 +115,15 @@ public class PrincipalView extends javax.swing.JFrame {
 	}
 
 	// Exibe uma confirmação para fechar o sistema
-	//public int confirmarFecharSistema() {
-	//	return JOptionPane.showConfirmDialog(this, "Tem certeza que deseja sair?", "Atenção",
-	//			JOptionPane.YES_NO_OPTION);
-	//}
+//	public int confirmarFecharSistema() {
+//		return JOptionPane.showConfirmDialog(this, "Tem certeza que deseja sair?", "Atenção",
+//				JOptionPane.YES_NO_OPTION);
+//	}
 
 	// Exibe informações sobre o sistema
-	//public void mostrarSobre() {
-	//	JOptionPane.showMessageDialog(this, "Sistema de Gestão Assistec - Versão 1.0");
-	//}
+//	public void mostrarSobre() {
+//		JOptionPane.showMessageDialog(this, "Sistema de Gestão Assistec - Versão 1.0");
+//	}
 
 	// Personaliza a interface conforme o perfil do usuário
 	public void configurarPerfilUsuario(String login, ArrayList<String> permissoes) {

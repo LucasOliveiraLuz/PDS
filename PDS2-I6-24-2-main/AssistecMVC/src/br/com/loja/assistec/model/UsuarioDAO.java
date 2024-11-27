@@ -1,4 +1,3 @@
-
 package br.com.loja.assistec.model;
 
 import java.sql.PreparedStatement;
