@@ -14,6 +14,7 @@ import br.com.loja.assistec.view.MensagemView;
 
 public class CadastrarUsuarioController {
 	private CadastrarUsuariosView cadastrarView;
+	private ListarUsuarioController listarController;
 	private Usuario usuarioSelecionado;
 	
 	public CadastrarUsuarioController(
@@ -108,7 +109,7 @@ public class CadastrarUsuarioController {
 	}
 	private void atualizarListaUsuario()throws SQLException {
 		ArrayList<Usuario> novosUsuarios = listarController.listarUsuarios();
-		listarController.atualizarTabela(novosUsuarios);
+		((Object) listarController).atualizarTabela(novosUsuarios);
 		
 	}
 
