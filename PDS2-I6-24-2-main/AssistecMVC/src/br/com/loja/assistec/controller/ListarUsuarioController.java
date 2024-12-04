@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -46,14 +47,24 @@ public class ListarUsuarioController {
 		UsuarioDAO dao = new UsuarioDAO();
 		return dao.selecionarUsuarios();
 	}
-	
+	private Usuario buscarUsuarioID(Long iduser) throws SQLException {
+		UsuarioDAO dao = new UsuarioDAO();
+		return dao.selecionarUsuario(iduser);
+	}
 	//Classe que trata o evento do clique na tabela
 	private class TabelaMouseClickListener extends MouseAdapter{
 		
 		public void mouseClicked(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				//Selecionar o usuario
-				System.out.println("clicado no botao esquerdo do mouse");
+				int linha = listarView.getLinhaSelecionada();
+				Long iduser = (Long) listarView.getValorLinhaColuna(linha,0);
+				try {
+					Usuario usuarioSelecionado = buscarUsuarioID(iduser);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 	}
@@ -76,7 +87,6 @@ public class ListarUsuarioController {
 		}
 		
 	}
-	
 	public void abrirCadastroUsuario(Usuario usuarioSelecionado) {
 		new CadastrarUsuarioController(this, usuarioSelecionado);
 	}
