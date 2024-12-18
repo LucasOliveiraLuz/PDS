@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -47,10 +46,12 @@ public class ListarUsuarioController {
 		UsuarioDAO dao = new UsuarioDAO();
 		return dao.selecionarUsuarios();
 	}
-	private Usuario buscarUsuarioID(Long iduser) throws SQLException {
+	
+	private Usuario buscarUsuarioPorID(Long iduser) throws SQLException {
 		UsuarioDAO dao = new UsuarioDAO();
 		return dao.selecionarUsuario(iduser);
 	}
+	
 	//Classe que trata o evento do clique na tabela
 	private class TabelaMouseClickListener extends MouseAdapter{
 		
@@ -58,13 +59,14 @@ public class ListarUsuarioController {
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				//Selecionar o usuario
 				int linha = listarView.getLinhaSelecionada();
-				Long iduser = (Long) listarView.getValorLinhaColuna(linha,0);
+				Long iduser = (Long) listarView.getValorLinhaColuna(linha, 0);
 				try {
-					Usuario usuarioSelecionado = buscarUsuarioID(iduser);
+					Usuario usuarioSelecionado = buscarUsuarioPorID(iduser);
+					abrirCadastroUsuario(usuarioSelecionado);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					new MensagemView("Erro ao buscar usuário!",0);
 				}
+				
 			}
 		}
 	}
@@ -87,6 +89,7 @@ public class ListarUsuarioController {
 		}
 		
 	}
+	
 	public void abrirCadastroUsuario(Usuario usuarioSelecionado) {
 		new CadastrarUsuarioController(this, usuarioSelecionado);
 	}
@@ -99,5 +102,9 @@ public class ListarUsuarioController {
 				e1.printStackTrace();
 			}
 		}
+	}
+
+	public void atualizarTabela(ArrayList<Usuario> novosUsuarios) {
+		listarView.atualizarTabelaUsuarios(novosUsuarios);
 	}
 }

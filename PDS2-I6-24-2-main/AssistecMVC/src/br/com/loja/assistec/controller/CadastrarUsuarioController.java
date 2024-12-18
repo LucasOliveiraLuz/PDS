@@ -21,6 +21,7 @@ public class CadastrarUsuarioController {
 			ListarUsuarioController listarUsuariosController,
 			Usuario user) {
 		this.usuarioSelecionado = user;
+		this.listarController = listarUsuariosController;
 		cadastrarView = new CadastrarUsuariosView(user);
 		cadastrarView.setLocationRelativeTo(null);
 		cadastrarView.setVisible(true);
@@ -29,17 +30,17 @@ public class CadastrarUsuarioController {
 
 	private void configurarListeners() {
 		cadastrarView.addCadastrarUsuariosListener(new CadastrarUsuariosListener());
-		cadastrarView.addWindowListener(new WindowAdapter() {
-			@Override
+		
+		cadastrarView.addWindowListener(new WindowAdapter(){
+			
 			public void windowOpened(WindowEvent e) {
 				if(usuarioSelecionado != null) {
 					cadastrarView.preencherCampos(usuarioSelecionado);
 					cadastrarView.habilitarBotaoExcluir(true);
 				}
 			}
-		
-	});
-}
+		});
+	}
 	
 	private class CadastrarUsuariosListener implements ActionListener{
 
@@ -56,7 +57,6 @@ public class CadastrarUsuarioController {
 				try {
 					NovoOuAlterar();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				break;
@@ -68,52 +68,56 @@ public class CadastrarUsuarioController {
 	}
 	
 	private void NovoOuAlterar() throws SQLException {
-		String perfil = (String) cadastrarView.getPerfil();
-		if(usuarioSelecionado == null) {
-			incluir(cadastrarView.getNome(), cadastrarView.getFone(), cadastrarView.getLogin(), cadastrarView.getSenha(), cadastrarView.getPerfil());
-			new MensagemView("Registro inserido com sucesso", 3);
-		}else {
-			alterar(usuarioSelecionado.getIduser(),cadastrarView.getNome(), 
-					cadastrarView.getFone(), cadastrarView.getLogin(), cadastrarView.getSenha(), cadastrarView.getPerfil());
+		String perfil = (String) cadastrarView.getPerfilSelecionado();
+		if (usuarioSelecionado == null) {
+			incluir(cadastrarView.getNome(), cadastrarView.getFone(),
+					cadastrarView.getLogin(), cadastrarView.getSenha(), 
+					perfil);
+			new MensagemView("Registro inserido com sucesso!",3);
+		} else {
+			alterar(usuarioSelecionado.getIduser(), cadastrarView.getNome(), cadastrarView.getFone(),
+					cadastrarView.getLogin(), cadastrarView.getSenha(), 
+					perfil);
+			new MensagemView("Registro alterado com sucesso!",3);
 		}
 		cadastrarView.dispose();
-		atualizarListaUsuario();
+		atualizarListaUsuarios();
 	}
 	
-	private void alterar(long iduser, String nome, String fone, String login, String senha, Object perfil) throws SQLException {
-		Usuario usuario = new Usuario(iduser, nome, fone, login, senha, (String) perfil);
+	private void alterar(long iduser, String nome, String fone, String login, String senha, String perfil) throws SQLException {
+		Usuario usuario = new Usuario(iduser, nome, fone, 
+				login, senha, perfil);
 		new UsuarioDAO().alterar(usuario);
-		
 	}
 
-	private void incluir(String nome, String fone, String login, String senha, Object perfil) throws SQLException {
-		Usuario usuario = new Usuario(nome, fone, login, senha, (String) perfil);
+	private void incluir(String nome, String fone, String login, String senha, String perfil) throws SQLException {
+		Usuario usuario = new Usuario(nome, fone, login, senha, perfil);
 		new UsuarioDAO().salvar(usuario);
-		
 	}
 
-	private void Excluir() {
+	private void Excluir()  {
 		MensagemView mv = new MensagemView("Tem certeza que quer excluir?");
 		int confirmacao = mv.getResposta();
-		if(confirmacao == 1) {
-			try {
+		if (confirmacao == 1) {
+			try{
 				excluir(usuarioSelecionado.getIduser());
 				cadastrarView.dispose();
-				atualizarListaUsuario();
-				new MensagemView("Excluido com sucesso",3);
-			} catch (SQLException e) {
-				new MensagemView("Erro ao excluir usuário", 0);
-				e.printStackTrace();
+				atualizarListaUsuarios();
+				new MensagemView("Usuário excluído com sucesso!", 3);
+			}catch(SQLException e) {
+				new MensagemView("Erro ao excluir usuário!", 0);
 			}
 		}
 	}
-	private void atualizarListaUsuario()throws SQLException {
-		ArrayList<Usuario> novosUsuarios = listarController.listarUsuarios();
-		((Object) listarController).atualizarTabela(novosUsuarios);
-		
+
+	private void atualizarListaUsuarios() throws SQLException {
+		ArrayList<Usuario> novosUsuarios = 
+				listarController.listarUsuarios();
+		listarController.atualizarTabela(novosUsuarios);
 	}
 
-	public void excluir(long iduser) throws SQLException {
+	private void excluir(long iduser) throws SQLException {
 		new UsuarioDAO().excluir(iduser);
 	}
+
 }
